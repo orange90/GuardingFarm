@@ -1,0 +1,87 @@
+﻿<gameSetting>
+<!--以下为关卡数值设定，包括通关目标分数，各关时间，水果出现间隔，每关各水果出现概率，达到条件后出现什么水果等。-->
+    <level id="1">
+    	<destScore> 300 </destScore>
+    	<maxScore> 950 </maxScore>
+    	<time> 50 </time>
+    	<frequency> 2 </frequency>
+    	<stayTime> 4 </stayTime>
+    	
+    	<ternipRate> 0.7</ternipRate>
+    	<carrotRate> 0.3 </carrotRate>
+    	<addition>
+    		<triggerScore> 450 </triggerScore>
+    		<appleRate> 0.2 </appleRate>
+    	</addition>
+    	
+    </level>
+    
+    <level id="2">
+    	<destScore> 750 </destScore>
+    	<maxScore> 2800 </maxScore>
+    	<time> 45 </time>
+    	<frequency> 1.5 </frequency>
+    	<stayTime> 3.5 </stayTime>
+    	
+    	<ternipRate> 0.6</ternipRate>
+    	<carrotRate> 0.25 </carrotRate>
+    	<cabbageRate> 0.15 </cabbageRate>
+    	<addition>
+    		<triggerScore> 1350 </triggerScore>
+    		<pearRate> 0.15 </pearRate>
+    	</addition>
+    </level>
+    
+    <level id="3">
+    	<destScore> 1300 </destScore>
+    	<maxScore> 99999999 </maxScore>
+    	<time> 40 </time>
+    	<frequency> 1.2 </frequency>
+    	<stayTime> 3 </stayTime>
+    	
+    	<ternipRate> 0.4</ternipRate>
+    	<carrotRate> 0.2 </carrotRate>
+    	<cabbageRate> 0.15 </cabbageRate>
+    	<eggplantRate> 0.10 </eggplantRate>
+    	<snakeRate> 0.15 </snakeRate>	
+    	<addition>
+    		<triggerScore> 2500 </triggerScore>
+    		<mangoRate> 0.1</mangoRate>
+    	</addition>
+    </level>
+    
+    <level id="4">
+    	<destScore> 3000 </destScore>
+    	<maxScore> 99999999 </maxScore>
+    	<time> 35 </time>
+    	<frequency> 1 </frequency>
+    	<stayTime> 2.5 </stayTime>
+    	
+    	<ternipRate> 0.3</ternipRate>
+    	<carrotRate> 0.2 </carrotRate>
+    	<cabbageRate> 0.15 </cabbageRate>
+    	<eggplantRate> 0.10 </eggplantRate>
+    	<pumpkidsRate> 0.05 </pumpkidsRate>
+    	<snakeRate> 0.10 </snakeRate>	
+    	<sisterRate> 0.10 </sisterRate>
+    	<addition>
+    		<triggerScore> 4000 </triggerScore>
+    		<watermelonRate> 0.05</watermelonRate>
+    	</addition>
+    </level>
+<!--以下为各水果分值-->
+    <fruitScore>
+	    <ternip>20</ternip>
+		<carrot>30</carrot>
+		<cabbage>50</cabbage>
+		<eggplant>80</eggplant>
+		<pumpkids>120</pumpkids>
+		<snake>0</snake>
+		<sister>0</sister>
+		<apple>200</apple>
+		<pear>350</pear>
+		<mango>800</mango>
+		<watermelon>1500</watermelon>
+    </fruitScore>
+    
+</gameSetting>
