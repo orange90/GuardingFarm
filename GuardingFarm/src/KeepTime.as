@@ -6,7 +6,7 @@ package
 	import flash.net.URLRequest;
 	import flash.net.URLLoaderDataFormat;
 	import flash.utils.getTimer;
-	import com.event.*;
+	import game.event.*;
 	/**
 	 * ...
 	 * @author orange

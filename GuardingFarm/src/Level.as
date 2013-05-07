@@ -65,16 +65,15 @@ package
 		{
 			
 			//初始化各洞，让其处于非占用状态
-			for (var i:uint = 0; i < gameProcess.holes.length; i++)
+			for (var i:uint = 0; i < HolePosition.holes.length; i++)
 			{
-				gameProcess.holes[i].is_taken = false;
+				HolePosition.holes[i].is_taken = false;
 			}
-			
 			_currentLevel = gameProcess.level; //在静态类gameProcess里面载入当前关卡
-			_settingFile = XMLParser.getXMLdata();
+			_settingFile = XMLSaver.getXMLdata();
 			
 			initLevel(); //初始化关卡数据
-			enterLevel(); //然后进入游戏关卡（未写完）
+			enterLevel(); //然后进入游戏关卡
 		}
 		
 		private function initLevel():void
@@ -124,50 +123,50 @@ package
 			
 			randomHole = popRandomHoleIndex();
 			checkScore(); //检查是否达到新老鼠出现条件
-			gameProcess.holes[randomHole].is_taken = true; //然后把此洞占用
+			HolePosition.holes[randomHole].is_taken = true; //然后把此洞占用
 			addEventListener(Event.ENTER_FRAME, removeExpiredMouse);
 			
 			//根据概率和当前关卡出现地鼠////////////////////////
+			//本想用Dictionary类来存储各关的，但是需要建立多个dictionary才能实现，比现在还复杂，故不改写此段
 			switch (_currentLevel)
 			{
 				case 1: 
 					if (randomPosition < _ternipRate)
-					   {
-					   _mouseArray.push(new MouseTernip(gameProcess.holes[randomHole]));
-					   this.addChild(_mouseArray[_mouseArray.length - 1]);
-					   }
-					   else if (randomPosition < _ternipRate + _carrotRate)
-					   {
-					   _mouseArray.push(new MouseCarrot(gameProcess.holes[randomHole]));
-					   this.addChild(_mouseArray[_mouseArray.length - 1]);
-					   }
-					   else
-					   {
-					   _mouseArray.push(new MouseApple(gameProcess.holes[randomHole]));
-					   this.addChild(_mouseArray[_mouseArray.length - 1]);
-					   }
-					 break;
-				
-				
-				case 2: 
-					if (randomPosition < _ternipRate)
 					{
-						_mouseArray.push(new MouseTernip(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseTernip(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else if (randomPosition < _ternipRate + _carrotRate)
 					{
-						_mouseArray.push(new MouseCarrot(gameProcess.holes[randomHole]));
-						this.addChild(_mouseArray[_mouseArray.length - 1]);
-					}
-					else if (randomPosition < _ternipRate + _carrotRate + _cabbageRate)
-					{
-						_mouseArray.push(new MouseCabbage(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseCarrot(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else
 					{
-						_mouseArray.push(new MousePear(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseApple(HolePosition.holes[randomHole]));
+						this.addChild(_mouseArray[_mouseArray.length - 1]);
+					}
+					break;
+				
+				case 2: 
+					if (randomPosition < _ternipRate)
+					{
+						_mouseArray.push(new MouseTernip(HolePosition.holes[randomHole]));
+						this.addChild(_mouseArray[_mouseArray.length - 1]);
+					}
+					else if (randomPosition < _ternipRate + _carrotRate)
+					{
+						_mouseArray.push(new MouseCarrot(HolePosition.holes[randomHole]));
+						this.addChild(_mouseArray[_mouseArray.length - 1]);
+					}
+					else if (randomPosition < _ternipRate + _carrotRate + _cabbageRate)
+					{
+						_mouseArray.push(new MouseCabbage(HolePosition.holes[randomHole]));
+						this.addChild(_mouseArray[_mouseArray.length - 1]);
+					}
+					else
+					{
+						_mouseArray.push(new MousePear(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					break;
@@ -175,32 +174,32 @@ package
 				case 3: 
 					if (randomPosition < _ternipRate)
 					{
-						_mouseArray.push(new MouseTernip(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseTernip(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else if (randomPosition < _ternipRate + _carrotRate)
 					{
-						_mouseArray.push(new MouseCarrot(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseCarrot(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else if (randomPosition < _ternipRate + _carrotRate + _cabbageRate)
 					{
-						_mouseArray.push(new MouseCabbage(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseCabbage(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else if (randomPosition < _ternipRate + _carrotRate + _cabbageRate + _eggplantRate)
 					{
-						_mouseArray.push(new MouseEggplant(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseEggplant(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else if (randomPosition < _ternipRate + _carrotRate + _cabbageRate + _eggplantRate + _snakeRate)
 					{
-						_mouseArray.push(new Snake(gameProcess.holes[randomHole]));
+						_mouseArray.push(new Snake(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else
 					{
-						_mouseArray.push(new MouseMango(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseMango(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					break;
@@ -208,37 +207,37 @@ package
 				case 4: 
 					if (randomPosition < _ternipRate)
 					{
-						_mouseArray.push(new MouseTernip(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseTernip(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else if (randomPosition < _ternipRate + _carrotRate)
 					{
-						_mouseArray.push(new MouseCarrot(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseCarrot(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else if (randomPosition < _ternipRate + _carrotRate + _cabbageRate)
 					{
-						_mouseArray.push(new MouseCabbage(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseCabbage(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else if (randomPosition < _ternipRate + _carrotRate + _cabbageRate + _eggplantRate)
 					{
-						_mouseArray.push(new MouseEggplant(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseEggplant(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else if (randomPosition < _ternipRate + _carrotRate + _cabbageRate + _eggplantRate + _pumpkidsRate)
 					{
-						_mouseArray.push(new MousePumpkids(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MousePumpkids(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else if (randomPosition < _ternipRate + _carrotRate + _cabbageRate + _eggplantRate + _pumpkidsRate + _sisterRate)
 					{
-						_mouseArray.push(new Sister(gameProcess.holes[randomHole]));
+						_mouseArray.push(new Sister(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					else
 					{
-						_mouseArray.push(new MouseWatermelon(gameProcess.holes[randomHole]));
+						_mouseArray.push(new MouseWatermelon(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
 					break;
@@ -263,7 +262,7 @@ package
 				_mouseArray[i].stayTime = getTimer() - _mouseArray[i].addTime;
 				if (_mouseArray[i].stayTime > int(_thisLevelSetting.stayTime) * 1000)
 				{ //转为毫秒
-					trace("this is" + this);
+					
 					if (_mouseArray[i] is Snake && _mouseArray[i].visible == true)
 						//因为被点击过的地鼠（或蛇）都是设成了visible = false，所以这里可以通过其visible是否为true来判断是否被点过。
 					{
@@ -277,7 +276,7 @@ package
 						this.removeChild(_mouseArray[i]);
 					}
 					
-					gameProcess.holes[_mouseArray[i].inWhichHole].is_taken = false;
+					HolePosition.holes[_mouseArray[i].inWhichHole].is_taken = false;
 					unusedHole.push(_mouseArray[i].inWhichHole);
 					
 					_mouseArray.splice(i, 1);
@@ -317,7 +316,7 @@ package
 					}
 					break;
 				case 4: 
-					if (gameProcess.total_score > _thisLevelSetting.addition.triggerScore  /*&& _sisterIsHit == false*/)
+					if (gameProcess.total_score > _thisLevelSetting.addition.triggerScore /*&& _sisterIsHit == false*/)
 					{ //还得未点击过地鼠妹妹
 						triggered = true;
 						_watermelonRate = _thisLevelSetting.addition.watermelonRate;
@@ -336,11 +335,11 @@ package
 		{
 			return _removedMouseY;
 		}
+		
 		public function set sisterIsHit(hit:Boolean)
 		{
-			 _sisterIsHit = hit;
+			_sisterIsHit = hit;
 		}
-		
 	
 	}
 }

@@ -1,10 +1,10 @@
 package 
 {
-	import com.pages.*;
-	import com.popups.NextLevelPopup;
+	import game.pages.*;
+	import game.popups.NextLevelPopup;
 	import flash.display.Sprite;
 	import flash.display.MovieClip;
-	import flash.events.Event;
+	import flash.events.Event; 
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLLoaderDataFormat;
@@ -14,7 +14,7 @@ package
 	/**
 	 * ...
 	 * @author orange
-	 * 首先载入xml，传给静态类XMLParser，用于存储整个游戏都需要的关卡数据
+	 * 首先载入xml，传给静态类XMLSaver，用于存储整个游戏都需要的关卡数据
 	 * 然后再载入游戏的第一页，开始游戏流程
 	 */
 	public class Main extends MovieClip 
@@ -32,7 +32,7 @@ package
 		}
 		private function handleLoadXMLComplete(event:Event):void
 		{
-			XMLParser.setXMLdata(new XML(event.target.data));
+			XMLSaver.setXMLdata(new XML(event.target.data));
 			createIndexPage();
 		}
 		private function createIndexPage():void 

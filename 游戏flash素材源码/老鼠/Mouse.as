@@ -21,7 +21,7 @@
 		
 		public function Mouse(hole:Hole) {
 			
-			inWhichHole = gameProcess.holes.indexOf(hole);
+			inWhichHole = HolePosition.holes.indexOf(hole);
 			
 			// 按洞大小缩放老鼠
 			this.width *=hole.scale;

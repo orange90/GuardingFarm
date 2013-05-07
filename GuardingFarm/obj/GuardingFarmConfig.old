@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'2013/5/3'</value>
+      <value>'2013/5/7'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -32,24 +32,24 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>C:\Users\game\Documents\FD\GuardingFarm\src</path-element>
+      <path-element>F:\HZ\保卫庄园\GuardingFarm\src</path-element>
       <path-element>D:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>C:\Users\game\Documents\FD\GuardingFarm\IndexRes.swc</path-element>
-      <path-element>C:\Users\game\Documents\FD\GuardingFarm\RulePageRes.swc</path-element>
-      <path-element>C:\Users\game\Documents\FD\GuardingFarm\RankPageRes.swc</path-element>
-      <path-element>C:\Users\game\Documents\FD\GuardingFarm\LevelTips.swc</path-element>
-      <path-element>C:\Users\game\Documents\FD\GuardingFarm\readyAndGO.swc</path-element>
-      <path-element>C:\Users\game\Documents\FD\GuardingFarm\KeepTimeRes.swc</path-element>
-      <path-element>C:\Users\game\Documents\FD\GuardingFarm\GamePageRes.swc</path-element>
-      <path-element>C:\Users\game\Documents\FD\GuardingFarm\SubmitRecordRes.swc</path-element>
-      <path-element>C:\Users\game\Documents\FD\GuardingFarm\MonkeyGo.swc</path-element>
-      <path-element>C:\Users\game\Documents\FD\GuardingFarm\mice.swc</path-element>
+      <path-element>F:\HZ\保卫庄园\GuardingFarm\IndexRes.swc</path-element>
+      <path-element>F:\HZ\保卫庄园\GuardingFarm\RulePageRes.swc</path-element>
+      <path-element>F:\HZ\保卫庄园\GuardingFarm\RankPageRes.swc</path-element>
+      <path-element>F:\HZ\保卫庄园\GuardingFarm\LevelTips.swc</path-element>
+      <path-element>F:\HZ\保卫庄园\GuardingFarm\readyAndGO.swc</path-element>
+      <path-element>F:\HZ\保卫庄园\GuardingFarm\KeepTimeRes.swc</path-element>
+      <path-element>F:\HZ\保卫庄园\GuardingFarm\GamePageRes.swc</path-element>
+      <path-element>F:\HZ\保卫庄园\GuardingFarm\SubmitRecordRes.swc</path-element>
+      <path-element>F:\HZ\保卫庄园\GuardingFarm\MonkeyGo.swc</path-element>
+      <path-element>F:\HZ\保卫庄园\GuardingFarm\mice.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Users\game\Documents\FD\GuardingFarm\src\Main.as</path-element>
+    <path-element>F:\HZ\保卫庄园\GuardingFarm\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#000000</default-background-color>
   <default-frame-rate>30</default-frame-rate>
