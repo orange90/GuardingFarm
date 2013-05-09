@@ -336,7 +336,7 @@ package
 			return _removedMouseY;
 		}
 		
-		public function set sisterIsHit(hit:Boolean)
+		public function set sisterIsHit(hit:Boolean):void
 		{
 			_sisterIsHit = hit;
 		}

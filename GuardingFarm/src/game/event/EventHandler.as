@@ -7,6 +7,8 @@ package game.event {
 	import flash.display.MovieClip;
 	import flash.events.Event
 	import flash.ui.Mouse;
+	import com.greensock.TweenLite;
+	import com.greensock.easing.*;
 	public class EventHandler extends MovieClip {
         public  var pageArr:Array;  
 		private var _gameStage:Object;   //游戏舞台
@@ -52,8 +54,11 @@ package game.event {
 			_gameStage.addChild(new GamePage());
 		}
 		private  function ShowRule():void {
-			clearStageForNextPage()
-			_gameStage.addChild(new RulePage());
+			clearStageForNextPage();
+			var rulePage:RulePage = new RulePage();
+			TweenLite.from(rulePage.rulePageRes.rules_tips, 1, {x: -1000, y:(480-rulePage.rulePageRes.rules_tips.height)/2, ease: Power0.easeOut, alpha:0});
+			TweenLite.to(rulePage.rulePageRes.rules_tips, 1, {x:(854-rulePage.rulePageRes.rules_tips.width)/2, y:(480-rulePage.rulePageRes.rules_tips.height)/2, ease: Power0.easeOut, alpha:1});
+			_gameStage.addChild(rulePage);
 		}
 		private function ShowRank():void
 		{

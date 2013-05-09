@@ -5,7 +5,7 @@
     <movie outputType="Application" />
     <movie input="" />
     <movie path="bin\GuardingFarm.swf" />
-    <movie fps="30" />
+    <movie fps="60" />
     <movie width="854" />
     <movie height="480" />
     <movie version="10" />
@@ -50,8 +50,6 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="IndexRes.swc" />
-    <element path="RulePageRes.swc" />
     <element path="RankPageRes.swc" />
     <element path="LevelTips.swc" />
     <element path="readyAndGO.swc" />
@@ -60,6 +58,8 @@
     <element path="SubmitRecordRes.swc" />
     <element path="MonkeyGo.swc" />
     <element path="mice.swc" />
+    <element path="IndexRes.swc" />
+    <element path="RulePageRes.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

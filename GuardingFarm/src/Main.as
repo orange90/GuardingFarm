@@ -22,13 +22,14 @@ package
 		
 		public function Main():void 
 		{
+			
 			var loader:URLLoader = new URLLoader();
 			loader.dataFormat = URLLoaderDataFormat.TEXT;
 			loader.addEventListener(Event.COMPLETE, handleLoadXMLComplete);
-			loader.load(new URLRequest("gameSetting.xml"));
+			
+			loader.load(new URLRequest("http://www.liketocode.com/demo/gameSetting.xml"));
 			Security.allowDomain("*")
 			Security.loadPolicyFile("CrossDomain.xml");
-			
 		}
 		private function handleLoadXMLComplete(event:Event):void
 		{

@@ -11,13 +11,13 @@ package game.pages
 	import game.event.*;
 	public class RulePage extends BasePage
 	{
-		private var _rulePage:MovieClip
+		public var rulePageRes:MovieClip
 		public function RulePage() 
 		{
 			super();//调用父类方法，包括各按钮的事件分发
-			_rulePage = new RulePageRes();
-			addChild(_rulePage);
-			_rulePage.start_btn.addEventListener(MouseEvent.CLICK, onClick);
+			rulePageRes = new RulePageRes();
+			addChild(rulePageRes);
+			rulePageRes.rules_tips.start_btn.addEventListener(MouseEvent.CLICK, onClick);
 		}
 		
 	}

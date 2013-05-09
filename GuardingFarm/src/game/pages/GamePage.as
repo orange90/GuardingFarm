@@ -15,6 +15,8 @@ package game.pages
 	import flash.net.URLLoaderDataFormat;
 	import flash.ui.Mouse;
 	import flash.utils.getDefinitionByName;
+	import com.greensock.easing.*;
+	import com.greensock.TweenLite
 	
 	public class GamePage extends BasePage
 	{
@@ -103,6 +105,9 @@ package game.pages
 		{
 			_shovel.x = mouseX;
 			_shovel.y = mouseY;
+			//下面两行很有必要，否则会被铲子图案本身挡住鼠标。
+			_shovel.mouseEnabled = false; 
+			_shovel.mouseChildren=false
 			setChildIndex(_shovel, numChildren - 1);//放在最上面
 		}
 		
@@ -143,8 +148,11 @@ package game.pages
 			{
 				var Tips:Class = getDefinitionByName("Tip" + gameProcess.level) as Class
 				var tips:MovieClip = new Tips();
-				tips.x = (SCREEN_WIDTH - tips.width) / 2
-				tips.y = (SCREEN_HEIGHT - tips.height) / 2
+				TweenLite.from(tips, 1, { x:-500, y:(SCREEN_HEIGHT - tips.height) / 2, ease:Power2.easeOut, alpha:0 } );
+				TweenLite.to(tips, 1, { x:(SCREEN_WIDTH - tips.width) / 2, y:(SCREEN_HEIGHT - tips.height) / 2, ease:Power2.easeOut, alpha:1 } );
+				
+				/*tips.x = (SCREEN_WIDTH - tips.width) / 2
+				tips.y = (SCREEN_HEIGHT - tips.height) / 2*/
 				addChild(tips);
 				tips.iknow_btn.addEventListener(MouseEvent.CLICK, startPrepare)
 			}
@@ -193,11 +201,17 @@ package game.pages
 				monkeyMC.x = (SCREEN_WIDTH - monkeyMC.width) / 2;
 				monkeyMC.y = (SCREEN_HEIGHT - monkeyMC.height) / 2;
 				addChild(monkeyMC);
-				if (gameProcess.level != 4)
+				if (gameProcess.level == 4)
 				{
-					monkeyMC.monkey.moveToLevel(gameProcess.level + 1);
+					dispatchEvent(new GameEvent(GameEvent.WIN));
+					flash.ui.Mouse.show();
 				}
-				monkeyMC.monkey.continue_btn.addEventListener(MouseEvent.CLICK, gotoNextLevel)//点击继续图标进入下一关
+				else
+				{
+					TweenLite.from(monkeyMC, 1, { x:-500, y:(SCREEN_HEIGHT - monkeyMC.height) / 2, ease:Power2.easeOut, alpha:0 } );
+				    TweenLite.to(monkeyMC, 1, { x:(SCREEN_WIDTH - monkeyMC.width) / 2, y:(SCREEN_HEIGHT - monkeyMC.height) / 2, ease:Power2.easeOut, alpha:1, onComplete:monkeyGoToNextLevel, onCompleteParams:[monkeyMC] } );
+					
+				}
 			}
 			//如果分数不达标，则显示失败那个页面
 			else
@@ -205,7 +219,11 @@ package game.pages
 				this.dispatchEvent(new GameEvent(GameEvent.FAIL));
 			}
 		}
-		
+		private function monkeyGoToNextLevel(_monkey:NextLevelPopup):void //猴子走到下一关
+		{
+			_monkey.monkey.moveToLevel(gameProcess.level + 1);
+			_monkey.monkey.continue_btn.addEventListener(MouseEvent.CLICK, gotoNextLevel)//点击继续图标进入下一关
+		}
 		private function startKeepTime(event:Event):void//开始计时
 		{
 			_keepTime.startKeepTime();
@@ -223,8 +241,7 @@ package game.pages
 			if (gameProcess.level == 4)
 			{
 				//转到通关页面
-				dispatchEvent(new GameEvent(GameEvent.WIN));
-				flash.ui.Mouse.show();
+				
 			}
 			else
 			{
@@ -238,12 +255,15 @@ package game.pages
 		{
 			_keepTime.add2Sec();
 			var add2:Add2Sec = new Add2Sec();
-			var startPoint = new Point(_mouseHandler.clickedX , _mouseHandler.clickedY);
-			var endPoint = new Point(0, 0);
+			var startPoint:Point = new Point(_mouseHandler.clickedX , _mouseHandler.clickedY);
+			var endPoint:Point = new Point(0, 0);
+			TweenLite.from(add2, 0, {x: _mouseHandler.clickedX, y:_mouseHandler.clickedY, ease: Back.easeOut});
+			TweenLite.to(add2, 3, {x: 0, y:0, ease: Back.easeOut, alpha:0.5, visible: false, onComplete: removeFlyingTime, onCompleteParams: [add2]});
 			add2.x = startPoint.x;
 			add2.y = startPoint.y + 10;
 			addChild(add2);
-			add2.moveTo(startPoint, endPoint);
+			
+			//add2.moveTo(startPoint, endPoint);
 			trace("2 sec is added");
 		}
 		
@@ -263,12 +283,23 @@ package game.pages
 				_level.sisterIsHit = true;
 				//dispatchEvent(new Event("sister_is_hit");
 			}
-			var endPoint = new Point(0, 0);
+			var endPoint:Point = new Point(0, 0);
 			minus2.x = startPoint.x;
 			minus2.y = startPoint.y + 10;
+			TweenLite.from(minus2, 0, {x: startPoint.x, y:startPoint.y, ease: Back.easeOut});
+			TweenLite.to(minus2, 3, {x: endPoint.x, y:endPoint.y, ease: Back.easeOut, alpha:0.5, visible: false, onComplete: removeFlyingTime, onCompleteParams: [minus2]});
 			addChild(minus2);
-			minus2.moveTo(startPoint, endPoint);
+			//minus2.moveTo(startPoint, endPoint);
 			
+		}
+		
+		private function removeFlyingTime(_timeObj:MovieClip):void
+		{
+			_timeObj.visible = false;
+			if (this != null && _timeObj != null)
+			{
+				this.removeChild(_timeObj);
+			}
 		}
 		
 		//初始化水果栏图标与其个数栏显示
@@ -278,7 +309,7 @@ package game.pages
 			{
 				_gamePage.vegetables.getChildAt(i).visible = false;
 			}
-			for (var i:uint = 0; i < gameProcess.level + 1; i++)
+			for (i = 0; i < gameProcess.level + 1; i++)
 			{
 				_levelFruitIcon[i].visible = true;
 				_levelFruitScore[i].visible = true;

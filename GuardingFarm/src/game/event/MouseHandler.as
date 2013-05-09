@@ -48,7 +48,7 @@ package game.event
 		
 		}
 		
-		public function handleMouseClick(event:MouseEvent) //处理老鼠被点击的事件
+		public function handleMouseClick(event:MouseEvent):void //处理老鼠被点击的事件
 		{
 			//各水果被点后应该飞往的地方
 			var endPointMap:Dictionary = new Dictionary();
