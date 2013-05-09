@@ -263,8 +263,8 @@ package
 				if (_mouseArray[i].stayTime > int(_thisLevelSetting.stayTime) * 1000)
 				{ //转为毫秒
 					
-					if (_mouseArray[i] is Snake && _mouseArray[i].visible == true)
-						//因为被点击过的地鼠（或蛇）都是设成了visible = false，所以这里可以通过其visible是否为true来判断是否被点过。
+					if (_mouseArray[i] is Snake && _mouseArray[i].clickable == true && _mouseArray[i].isFlying == false)
+						//因为未点击过的或蛇的clickable为true，而且毒蛇正在飞走的话，就不能再被点击而捣乱，进而发出减两秒的事件
 					{
 						_mouseArray[i].makeAMess(); //此函数已经顺带可以把毒蛇从舞台隐藏（虽非移除，但是毒蛇出现的机会少，所以不移除也不会占用很多资源）；
 						_removedMouseX = _mouseArray[i].x;

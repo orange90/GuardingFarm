@@ -143,7 +143,10 @@ package game.event
 						event.target.flyAway();
 						_clickedX = event.target.x;
 						_clickedY = event.target.y;
-						this.dispatchEvent(new Event("add2sec")); //将触发这些事：显示+2图标，并且总时间加2
+						if (event.target.clickable == true)
+						{
+							this.dispatchEvent(new Event("add2sec")); //将触发这些事：显示+2图标，并且总时间加2
+						}
 						break;
 					case "Sister": 
 						event.target.cry();
