@@ -22,17 +22,8 @@ package
 		
 		public function KeepTime()
 		{
-			var loader:URLLoader = new URLLoader();
-			loader.dataFormat = URLLoaderDataFormat.TEXT;
-			loader.addEventListener(Event.COMPLETE, handleComplete);
-			loader.load(new URLRequest("gameSetting.xml"));
-		
-		}
-		
-		private function handleComplete(event:Event):void
-		{ //从已载入的xml文件里面读取关卡时间值
 			
-			var settingFile:XML = new XML(event.target.data);
+			var settingFile:XML = new XML(XMLSaver.getXMLdata());
 			var thisLevelSetting:XML = new XML(settingFile.level.(@id == gameProcess.level));
 			_timeLength = int(thisLevelSetting.time) * 1000; //转成毫秒计时		
 		}
