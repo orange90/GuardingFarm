@@ -94,6 +94,11 @@ package game.pages
 			_mouseHandler.addEventListener("add2sec", add2Sec);//加两秒
 			_mouseHandler.addEventListener("minus2sec", minus2Sec);//减两秒
 			_level.addEventListener("minus2sec", minus2Sec);//减两秒
+			
+			_mouseHandler.addEventListener("AppleIsClick", _level.resetMouseRate);
+			_mouseHandler.addEventListener("PearIsClick", _level.resetMouseRate);
+			_mouseHandler.addEventListener("MangoIsClick", _level.resetMouseRate);
+			_mouseHandler.addEventListener("WatermelonIsClick", _level.resetMouseRate);
 		}
 		
 		private function initMouseIcon():void

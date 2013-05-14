@@ -13,7 +13,7 @@ package
 	import flash.net.URLLoaderDataFormat;
 	import flash.geom.Point;
 	import flash.net.navigateToURL;
-	import flash.ui.Mouse;
+	//import flash.ui.Mouse;
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
 	import flash.utils.getTimer;
@@ -46,20 +46,21 @@ package
 		private var _snakeRate:Number = 0;
 		private var _sisterRate:Number = 0;
 		
+		
 		private var _settingFile:XML; //配置文件
 		private var _thisLevelSetting:XML; //配置（从配置文件读取出来）
 		private var _mouseArray:Array = new Array(); //在舞台上的老鼠
 		
 		private var timer:Timer //间隔出现老鼠
 		
-		private var levelTimer:KeepTime; //每关计时器-----------------------------------------
+		//private var levelTimer:KeepTime; //每关计时器-----------------------------------------
 		
 		private var triggered:Boolean = false; //保证给新出现的老鼠的概率只赋值一次
 		private var usedHole:Vector.<uint> = new Vector.<uint>;
 		private var unusedHole:Vector.<uint> = new <uint>[0, 1, 2, 3, 4, 5];
 		//private var readyOverSwitch:Boolean = true; //保证readyOver函数赋值的部分只执行一次
 		private var _sisterIsHit:Boolean = false;
-		private var _snakeMadeMess:Boolean = false;
+		//private var _snakeMadeMess:Boolean = false;
 		
 		public function Level()
 		{
@@ -74,11 +75,18 @@ package
 			
 			initLevel(); //初始化关卡数据
 			enterLevel(); //然后进入游戏关卡
+			
+			this.addEventListener("AppleIsAdded", setNewRate);
+			this.addEventListener("PearIsAdded", setNewRate);
+			this.addEventListener("MangoIsAdded", setNewRate);
+			this.addEventListener("WatermelonIsAdded", setNewRate);
+			this.addEventListener("setNewRate", setNewRate)
+			this.addEventListener("resetMouseRate", resetMouseRate);
 		}
 		
 		private function initLevel():void
 		{
-			_thisLevelSetting = new XML(_settingFile.level.(@id == _currentLevel));
+			_thisLevelSetting = new XML(_settingFile.level.(@id == gameProcess.level));
 			//初始化各水果出现几率(若xml文件内无此水果，则相应的出现概率自动为零）
 			_ternipRate = _thisLevelSetting.ternipRate;
 			_carrotRate = _thisLevelSetting.carrotRate;
@@ -101,6 +109,7 @@ package
 			//根据关卡不同设置不同的计时器
 			timer = new Timer(_thisLevelSetting.frequency * 1000, 0); //此时timer的作用仅仅是出现老鼠    
 			timer.addEventListener(TimerEvent.TIMER, showMouse); //出现老鼠
+			timer.addEventListener(TimerEvent.TIMER, checkScore); //出现老鼠
 		}
 		
 		public function startLevel():void
@@ -122,12 +131,13 @@ package
 			var randomHole:uint = Math.floor(Math.random() * 6);
 			
 			randomHole = popRandomHoleIndex();
-			checkScore(); //检查是否达到新老鼠出现条件
+			//checkScore(); //检查是否达到新老鼠出现条件
 			HolePosition.holes[randomHole].is_taken = true; //然后把此洞占用
 			addEventListener(Event.ENTER_FRAME, removeExpiredMouse);
 			
 			//根据概率和当前关卡出现地鼠////////////////////////
 			//本想用Dictionary类来存储各关的，但是需要建立多个dictionary才能实现，比现在还复杂，故不改写此段
+			trace(randomPosition, "randomPosition");
 			switch (_currentLevel)
 			{
 				case 1: 
@@ -145,6 +155,8 @@ package
 					{
 						_mouseArray.push(new MouseApple(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
+						dispatchEvent(new Event("resetMouseRate"));
+						trace("new fruit is add in level"+gameProcess.level);
 					}
 					break;
 				
@@ -168,6 +180,8 @@ package
 					{
 						_mouseArray.push(new MousePear(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
+						dispatchEvent(new Event("resetMouseRate"));
+						trace("new fruit is add in level"+gameProcess.level);
 					}
 					break;
 				
@@ -196,15 +210,19 @@ package
 					{
 						_mouseArray.push(new Snake(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
+						
+						
 					}
 					else
 					{
 						_mouseArray.push(new MouseMango(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
+
 					}
 					break;
 				
 				case 4: 
+
 					if (randomPosition < _ternipRate)
 					{
 						_mouseArray.push(new MouseTernip(HolePosition.holes[randomHole]));
@@ -235,13 +253,27 @@ package
 						_mouseArray.push(new Sister(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
 					}
+					else if (randomPosition < _ternipRate + _carrotRate + _cabbageRate + _eggplantRate + _pumpkidsRate + _sisterRate + _snakeRate)
+					{
+						_mouseArray.push(new Snake(HolePosition.holes[randomHole]));
+						this.addChild(_mouseArray[_mouseArray.length - 1]);
+					}
 					else
 					{
 						_mouseArray.push(new MouseWatermelon(HolePosition.holes[randomHole]));
 						this.addChild(_mouseArray[_mouseArray.length - 1]);
+						dispatchEvent(new Event("resetMouseRate"));
+						trace("new fruit is add in level" + gameProcess.level);
+						
 					}
 					break;
 			}
+			//为了保证只会在舞台上显示一个奖励的水果
+			if (_mouseArray[_mouseArray.length - 1] is MouseApple) dispatchEvent (new Event("AppleIsAdded"));
+			if (_mouseArray[_mouseArray.length - 1] is MousePear) dispatchEvent (new Event("PearIsAdded"));
+			if (_mouseArray[_mouseArray.length - 1] is MouseMango) dispatchEvent (new Event("MangoeIsAdded"));
+			if (_mouseArray[_mouseArray.length - 1] is MouseWatermelon) dispatchEvent (new Event("WatermelonIsAdded"));
+		
 		}
 		
 		private function popRandomHoleIndex():uint //随机一个洞让地鼠出现
@@ -260,6 +292,10 @@ package
 			for (var i:uint = 0; i < _mouseArray.length; i++)
 			{
 				_mouseArray[i].stayTime = getTimer() - _mouseArray[i].addTime;
+				if ((_mouseArray[i] is MouseApple) || (_mouseArray[i] is MousePear) || (_mouseArray[i] is MouseMango) || (_mouseArray[i] is MouseWatermelon) )
+				{
+					dispatchEvent(new Event("resetMouseRate"));
+				}
 				if (_mouseArray[i].stayTime > int(_thisLevelSetting.stayTime) * 1000)
 				{ //转为毫秒
 					
@@ -278,17 +314,34 @@ package
 					
 					HolePosition.holes[_mouseArray[i].inWhichHole].is_taken = false;
 					unusedHole.push(_mouseArray[i].inWhichHole);
-					
-					_mouseArray.splice(i, 1);
+					var deletedMouse:* = _mouseArray.splice(i, 1)
+
 					
 				}
 			}
+			for (var i:uint = 0; i < _mouseArray.length; i++)
+			{
+				if ((_mouseArray[i] is MouseApple) || (_mouseArray[i] is MousePear) || (_mouseArray[i] is MouseMango) || (_mouseArray[i] is MouseWatermelon) || triggered == true)
+				{
+					return;
+				}
+				
+				dispatchEvent(new Event("setNewRate"));
+				
+			}
 		}
 		
-		private function checkScore():void
+		private function checkScore(e:TimerEvent):void
 		{ //检查分数是否达到新老鼠出现条件
+			trace("triggered:",triggered)
 			if (triggered)
 				return;
+			dispatchEvent(new Event("setNewRate"));
+			
+		}
+		public function setNewRate(e:Event):void
+		{
+			
 			switch (_currentLevel)
 			{ //各关出现新地鼠的条件
 				case 1: 
@@ -318,6 +371,7 @@ package
 				case 4: 
 					if (gameProcess.total_score > _thisLevelSetting.addition.triggerScore /*&& _sisterIsHit == false*/)
 					{ //还得未点击过地鼠妹妹
+						
 						triggered = true;
 						_watermelonRate = _thisLevelSetting.addition.watermelonRate;
 						_ternipRate -= _watermelonRate;
@@ -325,7 +379,15 @@ package
 					break;
 			}
 		}
-		
+		public function resetMouseRate(e:Event):void
+		{
+			_ternipRate = _thisLevelSetting.ternipRate;
+			_appleRate = 0;
+			_pearRate = 0;
+			_mangoRate = 0;
+			_watermelonRate = 0;
+			triggered = true;
+		}
 		public function get removedMouseX():Number
 		{
 			return _removedMouseX;

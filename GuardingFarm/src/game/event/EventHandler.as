@@ -69,6 +69,7 @@ package game.event {
 		{
 			clearStageForNextPage()
 			_gameStage.addChild(new Index());
+			resetScore();
 		}
 		private function GotoNextLevel():void
 		{
@@ -104,6 +105,12 @@ package game.event {
 			{
 				_gameStage.removeChildAt(0);
 			}
+		}
+		private function resetScore():void
+		{
+			gameProcess.level = 1;
+			gameProcess.total_score = 0;
+			
 		}
 		
 	}

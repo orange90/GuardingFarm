@@ -88,6 +88,11 @@ package game.event
 				event.target.parent.addChild(_obj);
 				mouseWithoutFruitArray.push(mouse);
 				removeMouseTimer.start();
+				
+				if (event.target is MouseApple) dispatchEvent(new Event("AppleIsClick"));
+				if (event.target is MousePear) dispatchEvent(new Event("PearIsClick"));
+				if (event.target is MouseMango) dispatchEvent(new Event("MangoIsClick"));
+				if (event.target is MouseWatermelon) dispatchEvent(new Event("WatermelonIsClick"));
 			}
 			
 			function removeFruit(fruit:Fruit):void //方法内的方法
